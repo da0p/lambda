@@ -1,3 +1,4 @@
+#include <functional>
 #include <iostream>
 #include <type_traits>
 
@@ -50,10 +51,18 @@ main()
   // pointer
   auto e = +[](int x, int ratio) { return x * ratio; };
 
+  std::function<void(int, int)> func = [](int x, int ratio) {
+    return x * ratio;
+  };
+
+  std::cout << "sizeof e = " << sizeof(e) << ", sizeof f = " << sizeof(func)
+            << "\n";
+
   // preserving const
   int const f = 10;
   auto foo = [f]() mutable {
-    std::cout << std::is_const<decltype(f)>::value << "\n";
+    std::cout << "const = " << std::is_const<decltype(f)>::value << "\n";
+    // f = 11;
   };
   foo();
 
